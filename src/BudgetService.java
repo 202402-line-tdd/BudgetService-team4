@@ -32,6 +32,7 @@ public class BudgetService {
         }
         double result = 0.0;
         LocalDate current = LocalDate.of(start.getYear(), start.getMonth(), 1);
+        final Period period = new Period(start, end);
         while (!current.isAfter(end)) {
             final YearMonth currentYearMonth = YearMonth.from(current);
 
@@ -39,7 +40,7 @@ public class BudgetService {
             if (currentBudget.isPresent()) {
 
                 final Budget budget = currentBudget.get();
-                final long overlappingDays = new Period(start, end).getOverlappingDays(new Period(budget.firstDay(), budget.lastDay()));
+                final long overlappingDays = period.getOverlappingDays(new Period(budget.firstDay(), budget.lastDay()));
                 result += budget.getDailyAmount() * overlappingDays;
             }
             current = current.plusMonths(1);
