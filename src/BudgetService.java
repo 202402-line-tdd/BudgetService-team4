@@ -18,28 +18,28 @@ public class BudgetService {
             return 0.00;
         }
 
-        Map<YearMonth, Double> budgetMap = budgetRepo.getAll().stream()
+        final Map<YearMonth, Double> budgetMap = budgetRepo.getAll().stream()
                 .collect(Collectors.toMap(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")), b -> b.amount));
 
         if (YearMonth.from(start).equals(YearMonth.from(end))) {
             Double localAmount = budgetMap.get(YearMonth.from(end));
             localAmount = localAmount == null ? 0 : localAmount;
-            int days = end.getDayOfMonth() - start.getDayOfMonth() + 1;
+            final int days = end.getDayOfMonth() - start.getDayOfMonth() + 1;
             return (localAmount / start.lengthOfMonth()) * days;
         }
         Double result = 0.0;
         LocalDate current = LocalDate.of(start.getYear(), start.getMonth(), 1);
         while (!current.isAfter(end)) {
-            YearMonth currentYearMonth = YearMonth.from(current);
+            final YearMonth currentYearMonth = YearMonth.from(current);
 
             if (budgetMap.containsKey(currentYearMonth)) {
-                Double amonut = budgetMap.get(YearMonth.from(current));
+                final Double amonut = budgetMap.get(YearMonth.from(current));
 
                 if (currentYearMonth.equals(YearMonth.from(start))) {
-                    int daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
+                    final int daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
                     result += (amonut / start.lengthOfMonth()) * daysOfMonth;
                 } else if (currentYearMonth.equals(YearMonth.from(end))) {
-                    int daysOfMonth = end.getDayOfMonth();
+                    final int daysOfMonth = end.getDayOfMonth();
                     result += (amonut / end.lengthOfMonth()) * daysOfMonth;
                 } else {
                     result += amonut;
