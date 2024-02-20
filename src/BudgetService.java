@@ -21,10 +21,10 @@ public class BudgetService {
         }
 
         List<Budget> budgets = budgetRepo.getAll();
-        final Map<YearMonth, Double> budgetMap = budgets.stream()
-                .collect(Collectors.toMap(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")), b -> b.amount));
 
         if (YearMonth.from(start).equals(YearMonth.from(end))) {
+            final Map<YearMonth, Double> budgetMap = budgets.stream()
+                    .collect(Collectors.toMap(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")), b -> b.amount));
             Double localAmount = budgetMap.get(YearMonth.from(end));
             localAmount = localAmount == null ? 0 : localAmount;
             final int days = end.getDayOfMonth() - start.getDayOfMonth() + 1;
