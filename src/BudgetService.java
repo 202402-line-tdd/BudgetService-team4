@@ -15,6 +15,10 @@ public class BudgetService {
         this.budgetRepo = budgetRepo;
     }
 
+    private static double overlappingAmount(Period period, Budget budget) {
+        return budget.getDailyAmount() * period.getOverlappingDays(budget.createPeriod());
+    }
+
     public double query(LocalDate start, LocalDate end) {
         if (start.isAfter(end)) {
             return 0.00;
@@ -40,7 +44,7 @@ public class BudgetService {
             if (currentBudget.isPresent()) {
 
                 final Budget budget = currentBudget.get();
-                result += budget.getDailyAmount() * period.getOverlappingDays(budget.createPeriod());
+                result += overlappingAmount(period, budget);
             }
             current = current.plusMonths(1);
         }
