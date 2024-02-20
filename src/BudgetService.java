@@ -3,6 +3,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BudgetService {
@@ -34,7 +35,9 @@ public class BudgetService {
         while (!current.isAfter(end)) {
             final YearMonth currentYearMonth = YearMonth.from(current);
 
-            if (budgetMap.containsKey(currentYearMonth)) {
+            Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
+            if (currentBudget.isPresent()) {
+//            if (budgetMap.containsKey(currentYearMonth)) {
                 final Double amonut = budgetMap.get(YearMonth.from(current));
 
                 if (currentYearMonth.equals(YearMonth.from(start))) {
