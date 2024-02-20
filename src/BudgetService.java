@@ -38,15 +38,15 @@ public class BudgetService {
             final Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
             if (currentBudget.isPresent()) {
 
-                final int daysOfMonth;
+                final int overlappingDays;
                 if (currentYearMonth.equals(YearMonth.from(start))) {
-                    daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
+                    overlappingDays = start.lengthOfMonth() - start.getDayOfMonth() + 1;
                 } else if (currentYearMonth.equals(YearMonth.from(end))) {
-                    daysOfMonth = end.getDayOfMonth();
+                    overlappingDays = end.getDayOfMonth();
                 } else {
-                    daysOfMonth = currentYearMonth.lengthOfMonth();
+                    overlappingDays = currentYearMonth.lengthOfMonth();
                 }
-                result += currentBudget.get().getDailyAmount() * daysOfMonth;
+                result += currentBudget.get().getDailyAmount() * overlappingDays;
             }
             current = current.plusMonths(1);
         }
