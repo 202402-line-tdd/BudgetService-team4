@@ -37,8 +37,8 @@ public class BudgetService {
 
             Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
             if (currentBudget.isPresent()) {
-//            if (budgetMap.containsKey(currentYearMonth)) {
-                final Double amonut = budgetMap.get(YearMonth.from(current));
+                final Double amonut = currentBudget.get().amount;
+//                final Double amonut = budgetMap.get(YearMonth.from(current));
 
                 if (currentYearMonth.equals(YearMonth.from(start))) {
                     final int daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
