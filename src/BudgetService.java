@@ -41,12 +41,17 @@ public class BudgetService {
 
                 if (currentYearMonth.equals(YearMonth.from(start))) {
                     final int daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
-                    result += (amount / start.lengthOfMonth()) * daysOfMonth;
+                    double dailyAmount = amount / start.lengthOfMonth();
+                    result += dailyAmount * daysOfMonth;
                 } else if (currentYearMonth.equals(YearMonth.from(end))) {
                     final int daysOfMonth = end.getDayOfMonth();
-                    result += (amount / end.lengthOfMonth()) * daysOfMonth;
+                    double dailyAmount = amount / end.lengthOfMonth();
+                    result += dailyAmount * daysOfMonth;
                 } else {
-                    result += amount;
+                    final int daysOfMonth = currentYearMonth.lengthOfMonth();
+                    double dailyAmount = amount / currentYearMonth.lengthOfMonth();
+                    result += dailyAmount * daysOfMonth;
+//                    result += amount;
                 }
             }
             current = current.plusMonths(1);
