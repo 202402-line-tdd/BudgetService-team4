@@ -3,7 +3,6 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BudgetService {
@@ -33,16 +32,19 @@ public class BudgetService {
         double result = 0.0;
         LocalDate current = LocalDate.of(start.getYear(), start.getMonth(), 1);
         final Period period = new Period(start, end);
-        while (!current.isAfter(end)) {
-            final YearMonth currentYearMonth = YearMonth.from(current);
+        for (Budget budget : budgets) {
 
-            final Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
-            if (currentBudget.isPresent()) {
-
-                final Budget budget = currentBudget.get();
-                result += budget.overlappingAmount(period);
-            }
-            current = current.plusMonths(1);
+//        }
+//        while (!current.isAfter(end)) {
+//            final YearMonth currentYearMonth = YearMonth.from(current);
+//
+//            final Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
+//            if (currentBudget.isPresent()) {
+//
+//                final Budget budget = currentBudget.get();
+            result += budget.overlappingAmount(period);
+//            }
+//            current = current.plusMonths(1);
         }
 
         return result;
