@@ -30,24 +30,23 @@ public class BudgetService {
             final int days = end.getDayOfMonth() - start.getDayOfMonth() + 1;
             return (localAmount / start.lengthOfMonth()) * days;
         }
-        Double result = 0.0;
+        double result = 0.0;
         LocalDate current = LocalDate.of(start.getYear(), start.getMonth(), 1);
         while (!current.isAfter(end)) {
             final YearMonth currentYearMonth = YearMonth.from(current);
 
             Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
             if (currentBudget.isPresent()) {
-                final Double amonut = currentBudget.get().amount;
-//                final Double amonut = budgetMap.get(YearMonth.from(current));
+                final double amount = currentBudget.get().amount;
 
                 if (currentYearMonth.equals(YearMonth.from(start))) {
                     final int daysOfMonth = start.lengthOfMonth() - start.getDayOfMonth() + 1;
-                    result += (amonut / start.lengthOfMonth()) * daysOfMonth;
+                    result += (amount / start.lengthOfMonth()) * daysOfMonth;
                 } else if (currentYearMonth.equals(YearMonth.from(end))) {
                     final int daysOfMonth = end.getDayOfMonth();
-                    result += (amonut / end.lengthOfMonth()) * daysOfMonth;
+                    result += (amount / end.lengthOfMonth()) * daysOfMonth;
                 } else {
-                    result += amonut;
+                    result += amount;
                 }
             }
             current = current.plusMonths(1);
