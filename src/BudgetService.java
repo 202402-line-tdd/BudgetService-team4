@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class BudgetService {
     private final BudgetRepo budgetRepo;
 //    private BudgetRepo budgetRepo;
@@ -42,7 +44,8 @@ public class BudgetService {
                 if (currentYearMonth.equals(YearMonth.from(start))) {
                     overlappingDays = start.lengthOfMonth() - start.getDayOfMonth() + 1;
                 } else if (currentYearMonth.equals(YearMonth.from(end))) {
-                    overlappingDays = end.getDayOfMonth();
+                    overlappingDays = (int) (DAYS.between(currentBudget.get().firstDay(), end) + 1);
+//                    overlappingDays = end.getDayOfMonth();
                 } else {
                     overlappingDays = currentYearMonth.lengthOfMonth();
                 }
