@@ -1,10 +1,10 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 //import org.mockito.Mockito;
 
 public class BudgetServiceTest {
@@ -65,6 +65,4 @@ public class BudgetServiceTest {
                 )
         );
     }
-
-
 }
