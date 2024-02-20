@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,8 @@ public class BudgetService {
             return 0.00;
         }
 
-        final Map<YearMonth, Double> budgetMap = budgetRepo.getAll().stream()
+        List<Budget> budgets = budgetRepo.getAll();
+        final Map<YearMonth, Double> budgetMap = budgets.stream()
                 .collect(Collectors.toMap(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")), b -> b.amount));
 
         if (YearMonth.from(start).equals(YearMonth.from(end))) {
