@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 public class BudgetService {
     private final BudgetRepo budgetRepo;
 //    private BudgetRepo budgetRepo;
@@ -15,22 +13,6 @@ public class BudgetService {
     public BudgetService(BudgetRepo budgetRepo) {
 
         this.budgetRepo = budgetRepo;
-    }
-
-    private static long getOverlappingDays(Period period, Budget budget) {
-        final LocalDate overlappingStart;
-        final LocalDate overlappingEnd;
-        if (budget.getYearMonth().equals(YearMonth.from(period.start()))) {
-            overlappingStart = period.start();
-            overlappingEnd = budget.lastDay();
-        } else if (budget.getYearMonth().equals(YearMonth.from(period.end()))) {
-            overlappingStart = budget.firstDay();
-            overlappingEnd = period.end();
-        } else {
-            overlappingStart = budget.firstDay();
-            overlappingEnd = budget.lastDay();
-        }
-        return DAYS.between(overlappingStart, overlappingEnd) + 1;
     }
 
     public double query(LocalDate start, LocalDate end) {
@@ -57,7 +39,7 @@ public class BudgetService {
             if (currentBudget.isPresent()) {
 
                 final Budget budget = currentBudget.get();
-                final long overlappingDays = getOverlappingDays(new Period(start, end), budget);
+                final long overlappingDays = new Period(start, end).getOverlappingDays(budget);
                 result += budget.getDailyAmount() * overlappingDays;
             }
             current = current.plusMonths(1);
