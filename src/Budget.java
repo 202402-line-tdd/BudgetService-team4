@@ -20,6 +20,10 @@ public class Budget {
         return getYearMonth().lengthOfMonth();
     }
 
+    public LocalDate lastDay() {
+        return getYearMonth().atEndOfMonth();
+    }
+
     double getDailyAmount() {
         return this.amount / days();
     }
