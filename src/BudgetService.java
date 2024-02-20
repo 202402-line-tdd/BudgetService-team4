@@ -37,7 +37,6 @@ public class BudgetService {
 
             final Optional<Budget> currentBudget = budgets.stream().filter(b -> YearMonth.parse(b.yearMonth, DateTimeFormatter.ofPattern("yyyyMM")).equals(currentYearMonth)).findFirst();
             if (currentBudget.isPresent()) {
-                final double amount = currentBudget.get().amount;
 
                 final int daysOfMonth;
                 if (currentYearMonth.equals(YearMonth.from(start))) {
@@ -47,7 +46,7 @@ public class BudgetService {
                 } else {
                     daysOfMonth = currentYearMonth.lengthOfMonth();
                 }
-                final double dailyAmount = amount / currentBudget.get().days();
+                final double dailyAmount = currentBudget.get().amount / currentBudget.get().days();
                 result += dailyAmount * daysOfMonth;
             }
             current = current.plusMonths(1);
