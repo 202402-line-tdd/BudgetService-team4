@@ -47,7 +47,7 @@ public class BudgetService {
                 } else {
                     daysOfMonth = currentYearMonth.lengthOfMonth();
                 }
-                final double dailyAmount = amount / currentYearMonth.lengthOfMonth();
+                final double dailyAmount = amount / currentBudget.get().days();
                 result += dailyAmount * daysOfMonth;
             }
             current = current.plusMonths(1);
