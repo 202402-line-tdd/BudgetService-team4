@@ -28,7 +28,7 @@ public class Budget {
         return this.amount / days();
     }
 
-    private YearMonth getYearMonth() {
+    public YearMonth getYearMonth() {
         YearMonth yyyyMM = YearMonth.parse(yearMonth, DateTimeFormatter.ofPattern("yyyyMM"));
         return yyyyMM;
     }
