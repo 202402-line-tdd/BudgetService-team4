@@ -15,10 +15,6 @@ public class BudgetService {
         this.budgetRepo = budgetRepo;
     }
 
-    private static double getDailyAmount(Budget budget) {
-        return budget.amount / budget.days();
-    }
-
     public double query(LocalDate start, LocalDate end) {
         if (start.isAfter(end)) {
             return 0.00;
@@ -50,7 +46,7 @@ public class BudgetService {
                 } else {
                     daysOfMonth = currentYearMonth.lengthOfMonth();
                 }
-                final double dailyAmount = getDailyAmount(currentBudget.get());
+                final double dailyAmount = currentBudget.get().getDailyAmount();
                 result += dailyAmount * daysOfMonth;
             }
             current = current.plusMonths(1);
