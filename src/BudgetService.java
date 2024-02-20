@@ -40,8 +40,7 @@ public class BudgetService {
             if (currentBudget.isPresent()) {
 
                 final Budget budget = currentBudget.get();
-                final long overlappingDays = period.getOverlappingDays(budget.createPeriod());
-                result += budget.getDailyAmount() * overlappingDays;
+                result += budget.getDailyAmount() * period.getOverlappingDays(budget.createPeriod());
             }
             current = current.plusMonths(1);
         }
