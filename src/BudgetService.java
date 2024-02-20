@@ -17,6 +17,22 @@ public class BudgetService {
         this.budgetRepo = budgetRepo;
     }
 
+    private static long getOverlappingDays(LocalDate start, LocalDate end, Budget budget) {
+        final LocalDate overlappingStart;
+        final LocalDate overlappingEnd;
+        if (budget.getYearMonth().equals(YearMonth.from(start))) {
+            overlappingStart = start;
+            overlappingEnd = budget.lastDay();
+        } else if (budget.getYearMonth().equals(YearMonth.from(end))) {
+            overlappingStart = budget.firstDay();
+            overlappingEnd = end;
+        } else {
+            overlappingStart = budget.firstDay();
+            overlappingEnd = budget.lastDay();
+        }
+        return DAYS.between(overlappingStart, overlappingEnd) + 1;
+    }
+
     public double query(LocalDate start, LocalDate end) {
         if (start.isAfter(end)) {
             return 0.00;
@@ -41,19 +57,7 @@ public class BudgetService {
             if (currentBudget.isPresent()) {
 
                 final Budget budget = currentBudget.get();
-                final LocalDate overlappingStart;
-                final LocalDate overlappingEnd;
-                if (budget.getYearMonth().equals(YearMonth.from(start))) {
-                    overlappingStart = start;
-                    overlappingEnd = budget.lastDay();
-                } else if (budget.getYearMonth().equals(YearMonth.from(end))) {
-                    overlappingStart = budget.firstDay();
-                    overlappingEnd = end;
-                } else {
-                    overlappingStart = budget.firstDay();
-                    overlappingEnd = budget.lastDay();
-                }
-                final long overlappingDays = DAYS.between(overlappingStart, overlappingEnd) + 1;
+                final long overlappingDays = getOverlappingDays(start, end, budget);
                 result += budget.getDailyAmount() * overlappingDays;
             }
             current = current.plusMonths(1);
